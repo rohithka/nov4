@@ -1,0 +1,108 @@
+{% extends 'layouts/base.html' %}
+{% load widget_tweaks %}
+{% load mathfilters %}
+{% block content %}
+
+<section class="ecommerce container-fluid my-3" >
+
+    <!-- checkout topbar -->
+    <div class="ecomerce-top-bar card p-3">
+        <div class="row">
+            <div class="col-4">
+                <span class="item-name" style="font-size: 1.4rem;">Checkout</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- checkout main section -->
+    <div class="ecom-main-section my-3">
+       {% if messages %}
+               <div id="alerts-disimissible-component" class="tab-pane tab-example-result fade active show" role="tabpanel" aria-labelledby="alerts-disimissible-component-tab">
+                   <div class="alert alert-success alert-dismissible fade show messages" role="alert">
+                    <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                
+                        <path opacity="0.4" d="M16.3405 1.99976H7.67049C4.28049 1.99976 2.00049 4.37976 2.00049 7.91976V16.0898C2.00049 
+                            19.6198 4.28049 21.9998 7.67049 21.9998H16.3405C19.7305 21.9998 22.0005 19.6198 22.0005 16.0898V7.91976C22.0005 
+                            4.37976 19.7305 1.99976 16.3405 1.99976Z" fill="currentColor">
+                        </path>                                
+                        <path d="M10.8134 15.248C10.5894 15.248 10.3654 15.163 10.1944 14.992L7.82144 12.619C7.47944 12.277 
+                            7.47944 11.723 7.82144 11.382C8.16344 11.04 8.71644 11.039 9.05844 11.381L10.8134 13.136L14.9414 
+                            9.00796C15.2834 8.66596 15.8364 8.66596 16.1784 9.00796C16.5204 9.34996 16.5204 9.90396 16.1784 
+                            10.246L11.4324 14.992C11.2614 15.163 11.0374 15.248 10.8134 15.248Z" fill="currentColor">
+                        </path>                                
+                    </svg>                            
+                   {% for message in messages %}
+                   <strong {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+                   {% endfor %}
+                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                   </div>
+               </div>
+           {% endif %}
+            <div id="alerts-disimissible-component" class="tab-pane tab-example-result fade active show" role="tabpanel" aria-labelledby="alerts-disimissible-component-tab">                
+                <div class="conatiner-fluid content-inner" style="min-height: calc(100vh - 14rem);">
+                    <div class="row">                  
+                       <div class="col-lg-12">
+                          <div class="card   rounded">
+                             <div class="card-body">
+                                <div class="row">
+                                   <div class="col-sm-12">    
+                                      <h4 class="mb-3">OrderNo : {{num}}</h4>                              
+                                      <h5 class="mb-3">Hello , {{request.user.username}} </h5>
+                                   </div>
+                                </div>
+                                <div class="row">
+                                   <div class="col-sm-12 mt-4">
+                                      <div class="table-responsive-lg">
+                                         <table class="table">
+                                            <thead>
+                                               <tr>
+                                                  <th scope="col">Item</th>
+                                                  <th class="text-center" scope="col">Quantity</th>
+                                                  <th class="text-center" scope="col">Price</th>
+                                                  <th class="text-center" scope="col">Totals</th>
+                                               </tr>
+                                            </thead>
+                                            <tbody>
+                                               {% for i in cartData%}
+                                                    <tr>
+                                                        <td>
+                                                        <h6 class="mb-0">{{i.product_name}}</h6>
+                                                        </td>
+                                                        <td class="text-center">{{i.quantity}}</td>
+                                                        <td class="text-center">{{i.price}}</td>
+                                                        <td class="text-center">
+                                                            {{ i.quantity|mul:i.price }}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                <tr>
+                                                    <td colspan="3">
+                                                    <h6 class="mb-0">Total</h6>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{totalAmount}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                         </table>
+                                      </div>
+                                   </div>                              
+                                </div>
+                                <div class="row">
+                                   <div class="col-sm-12">
+                                      <div class="d-flex justify-content-center mt-4">
+                                         <a href="{% url 'order' num %}" class="btn btn-primary">Order</a>
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                       </div>                                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+{% endblock content %}
